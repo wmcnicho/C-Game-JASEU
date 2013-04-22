@@ -3,12 +3,12 @@ My game is going to be a simple "Shoot em' up" style game. This type of gmae fol
 a spaceship or other type of craft that can shoot at other enemy spaceships.
 
 #Enemy types (i.e. things)
-  +Crusher(5 pts)- An enemy that only moves in vertical lines. Looks like a bunch of spikes.
-  +ZigZagger(10 pts)- An enemy that moves in diagonal lines. Looks like an orange letter Z.
-  +Tops(10 pts)- An enemy that moves in in progressively larger circles. Looks like a sunflower
-  +Shooters(12 pts)- An enemy that moves in a horizontal line from one side of the screen to the other. When it reaches the other side
++ Crusher(5 pts)- An enemy that only moves in vertical lines. Looks like a bunch of spikes.
++ ZigZagger(10 pts)- An enemy that moves in diagonal lines. Looks like an orange letter Z.
++ Tops(10 pts)- An enemy that moves in in progressively larger circles. Looks like a sunflower
++ Shooters(12 pts)- An enemy that moves in a horizontal line from one side of the screen to the other. When it reaches the other side
   it fires a projectile. Looks like a space ship
-  +SonOfA***(50 pts)- An enemy that moves in a random direction and very quickly. Looks like a trollface.
++ SonOfA***(50 pts)- An enemy that moves in a random direction and very quickly. Looks like a trollface.
   
 #Gameplay
 Gameplay consists of the basic use of W A S D or arrow keys to move your ship across the screen. When the spacebar or enter key is pressed a 
