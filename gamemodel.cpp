@@ -10,6 +10,21 @@ Game::Game() {
     newLife = 0;
 
 }
+bool Game::start(){
+return started;
+}
+
+
+    void Game::reset(){
+    started = false;
+    end = false;
+    continuesRemaining = 3;
+    lives = 3;
+    score = 0;
+    scoreRate = 1.0;
+    newLife = 0;
+    
+    }
 Game::~Game() {
 }
 
@@ -49,6 +64,10 @@ void Game::useContinue() {
     scoreRate = scoreRate/2;
     lives = 3;
     newLife = 0;
+}
+
+double Game::getRate(){
+   return scoreRate;
 }
 
 int Game::getScore() {

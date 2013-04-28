@@ -8,12 +8,15 @@ public:
     void updateScore(int s);
     void removeLife();
     bool gameOver();
+    bool start();
     void useContinue();
 
     int getScore();
     int getLives();
     int getCont();
-
+    double getRate();
+    
+    void reset();
 
 private:
     bool started;

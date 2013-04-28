@@ -45,14 +45,9 @@ public:
     
     
     Thing* spawnEnemy();
-    //void show();
     
-    /**Takes in a given tile number based off of the tile clicked and updates it in the model and the view,
-    *starts the timer for the animation, and checks the winning condition.
-    *This function is called when a tile is clicked on.
-    @param value The number of the tile to be moved
-    */
-    //void moveTiles(int value);
+    void updateNums();
+        
 protected:
      void keyPressEvent(QKeyEvent* e);
      void keyReleaseEvent( QKeyEvent *e );
