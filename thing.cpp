@@ -1,4 +1,5 @@
 #include "thing.h"
+#include <iostream>
 
 Thing::Thing(QPixmap* pm, int nx, int ny){
     setPixmap(*pm);
@@ -8,6 +9,21 @@ Thing::Thing(QPixmap* pm, int nx, int ny){
     velocityY = 0;
     setPos(x, y);
 }
+/*bool Thing::collidesWithItem(Thing* item){
+    int x2 = item->getX();
+    int y2 = item->getY();
+    if(item->good == good){
+    return false;
+    }
+    else
+    {
+    if( (x==x2) && (y == y2) ){
+    std::cout<< "COLLIDE" << std::endl;
+    return true;
+    }
+    }
+    return false;
+}*/
 
 void Thing::updatePos() {
    y -= getVelocityY();

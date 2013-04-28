@@ -21,11 +21,13 @@ public:
     void setX(int nx);
     void setY(int ny);
     virtual void changePos() = 0;
+    //bool collidesWithItem(Thing* item);
     void updatePos();
     
 protected:
     int x;
     int y;
+    bool good;
 
 private:
     int width;

@@ -48,6 +48,11 @@ public:
     Thing* spawnEnemy();
     
     void updateNums();
+    
+    void handleCollisions();
+    
+    void setToDefaultPositions();
+    
      
     QPixmap* laserImage;
       
@@ -98,6 +103,7 @@ private:
     Player* player;
     
     std::vector<Thing*> enemies;
+    std::vector<Thing*> goodies;
 
 public slots:
    void initialize();

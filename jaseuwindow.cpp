@@ -32,15 +32,44 @@ void JaseuWindow::handleTimer() {
         scene -> addItem(newEnemy);
         enemies.push_back(newEnemy);
     }
+    handleCollisions();
+    for(unsigned int i=0; i<goodies.size(); i++) {
+        goodies[i]->changePos();
+        goodies[i]->updatePos();
+    }
     for(unsigned int i=0; i<enemies.size(); i++) {
         enemies[i]->changePos();
-    }
-    for(unsigned int i=0; i<enemies.size(); i++) {
         enemies[i]->updatePos();
     }
+    
+    
     updateNums();
 }
 
+void JaseuWindow::handleCollisions(){
+    for(unsigned int i=0; i<goodies.size(); i++) {
+        for(unsigned int j=0; j<enemies.size(); j++){
+          if(goodies[i]->collidesWithItem(enemies[j]) )
+             {
+               if(goodies[i] == player){
+               model.removeLife();
+               scene->clear();
+               enemies.clear();
+               goodies.clear();
+               setToDefaultPositions();
+               return;
+               }
+               goodies.erase(goodies.begin() + i);
+               enemies.erase(enemies.begin() + j);
+               scene->removeItem(goodies[i]);
+               scene->removeItem(enemies[j]);
+               continue;
+             }
+        }
+    }
+
+
+}
 
 void JaseuWindow::handlePause() {
 
@@ -52,7 +81,7 @@ void JaseuWindow::handlePause() {
     }
 }
 
-Thing *JaseuWindow::spawnEnemy() {
+Thing* JaseuWindow::spawnEnemy() {
     int randX = rand()%3;
     int randY = rand()%2;
     int spawnX = 0;
@@ -82,15 +111,7 @@ Thing *JaseuWindow::spawnEnemy() {
     return enemy;
 }
 
-void JaseuWindow::initialize() {
-
-    scene->clear();
-    enemies.clear();
-    model.reset();
-    timeCounter = 0;
-    spawnRate = 1;
-
-    scene->setSceneRect(0,0,780,590);
+void JaseuWindow::setToDefaultPositions(){
     QBrush greenBrush(Qt::green);
     QBrush redBrush(Qt::red);
     QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
@@ -114,7 +135,21 @@ void JaseuWindow::initialize() {
 
     player = new Player(playerShip, PLAYER_SPAWN_X, PLAYER_SPAWN_Y);
     scene->addItem(player);
+    goodies.push_back(player);
+}
 
+
+void JaseuWindow::initialize() {
+    
+    scene->clear();
+    enemies.clear();
+    model.reset();
+    timeCounter = 0;
+    spawnRate = 1;
+    
+
+    setToDefaultPositions();
+    
     timer->start();
 }
 void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
@@ -150,7 +185,7 @@ void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
        
        Laser* bullet = new Laser(laserImage, player->getX(), player->getY());
        scene -> addItem(bullet);
-       enemies.push_back(bullet);
+       goodies.push_back(bullet);
     }
 }
 
@@ -262,11 +297,13 @@ JaseuWindow::JaseuWindow()  {
     connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
     connect(pause, SIGNAL(clicked()), this, SLOT(handlePause()));
 
-
+    scene->setSceneRect(0,0,780,590);
+        
     setFocusPolicy(Qt::StrongFocus);
 }
 
 void JaseuWindow::updateNums() {
+
     score->display(model.getScore());
     lives->display(model.getLives());
     continues->display(model.getCont());

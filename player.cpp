@@ -3,17 +3,12 @@
 #include "jaseuwindow.h"
 
 
-Player::Player(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny){
-    
+Player::Player(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny) {
+   good = true;
 }
-int Player::getX(){
-return x;
+int Player::getX() {
+    return x;
 }
-    int Player::getY(){
-return y;
+int Player::getY() {
+    return y;
 }
-/*Laser* Player::shoot(){
- //Laser* shot = new Laser(window_->laserImage, x, y);
- 
-
-}*/
