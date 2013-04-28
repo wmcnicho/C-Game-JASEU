@@ -20,8 +20,9 @@ public:
     void setVelocityY(int y);
     void setX(int nx);
     void setY(int ny);
-    virtual void updatePos() = 0;
-
+    virtual void changePos() = 0;
+    void updatePos();
+    
 protected:
     int x;
     int y;

@@ -26,6 +26,7 @@
 #include <QGridLayout>
 #include "thing.h"
 #include "player.h"
+#include "crusher.h"
 #include <QKeyEvent>
 
 class JaseuWindow : public QWidget {
@@ -40,6 +41,9 @@ public:
     *Note: Currently not implemented because it is not a requirement
     */
     ~JaseuWindow();
+    
+    
+    Thing* spawnEnemy();
     //void show();
     
     /**Takes in a given tile number based off of the tile clicked and updates it in the model and the view,
@@ -53,6 +57,14 @@ protected:
      void keyReleaseEvent( QKeyEvent *e );
 
 private:
+
+    int timeCounter;
+    int spawnRate;
+
+    //pixMap images
+    QPixmap* playerShip; 
+    QPixmap* crusherShip; 
+    
 /**The data member that stores the created widgets */
     QGraphicsScene *scene;
     /**A view containing the widgets stored in scence */
@@ -85,7 +97,7 @@ private:
     
     Player* player;
     
-    std::vector<Thing*> things;
+    std::vector<Thing*> enemies;
 
 public slots:
    void initialize();

@@ -13,7 +13,7 @@
 class Player : public Thing {
 public:
     Player(QPixmap* pm, int nx, int ny);
-    void updatePos();
+    void changePos(){}
     
 
 private:

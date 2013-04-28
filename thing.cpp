@@ -9,6 +9,12 @@ Thing::Thing(QPixmap* pm, int nx, int ny){
     setPos(x, y);
 }
 
+void Thing::updatePos() {
+   y -= getVelocityY();
+   x += getVelocityX();
+   setPos(x, y);
+}
+
 int Thing::getVelocityX() {
     return velocityX;
 }
