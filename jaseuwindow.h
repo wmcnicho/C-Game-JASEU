@@ -29,6 +29,7 @@
 #include "crusher.h"
 #include <QKeyEvent>
 #include "gamemodel.h"
+#include "laser.h"
 
 class JaseuWindow : public QWidget {
     Q_OBJECT
@@ -47,7 +48,9 @@ public:
     Thing* spawnEnemy();
     
     void updateNums();
-        
+     
+    QPixmap* laserImage;
+      
 protected:
      void keyPressEvent(QKeyEvent* e);
      void keyReleaseEvent( QKeyEvent *e );
@@ -60,7 +63,7 @@ private:
 
     //pixMap images
     QPixmap* playerShip; 
-    QPixmap* crusherShip; 
+    QPixmap* crusherShip;
     
 /**The data member that stores the created widgets */
     QGraphicsScene *scene;

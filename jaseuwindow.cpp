@@ -146,6 +146,12 @@ void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
     if((e->key()==Qt::Key_W)||(e->key()==Qt::Key_S)) {
         player->setVelocityY(0);
     }
+    if(e->key() == Qt::Key_F){
+       
+       Laser* bullet = new Laser(laserImage, player->getX(), player->getY());
+       scene -> addItem(bullet);
+       enemies.push_back(bullet);
+    }
 }
 
 JaseuWindow::JaseuWindow()  {
@@ -155,6 +161,7 @@ JaseuWindow::JaseuWindow()  {
 
     playerShip = new QPixmap("./images/playerShip.jpg");
     crusherShip = new QPixmap("./images/crusher.png");
+    laserImage = new QPixmap("./images/laser.jpg");
 
     //start: layout stuff
     setFixedSize(1000, 750);
