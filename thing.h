@@ -11,22 +11,25 @@
   */
 class Thing : public QGraphicsPixmapItem {
 public:
-    Thing(double nx, double ny, double w, double h, int vx, int vy );
-    void setX( int x );
-    void setY( int y );
-    void setVelocityX( int vx );
-    void setVelocityY( int vy );
+    Thing(QPixmap* pm, int nx, int ny);
     int getX();
     int getY();
     int getVelocityX();
     int getVelocityY();
-    void move(int windowMaxX, int windowMaxY );
+    void setVelocityX(int x);
+    void setVelocityY(int y);
+    void setX(int nx);
+    void setY(int ny);
+    virtual void updatePos() = 0;
 
-private:
+protected:
     int x;
     int y;
+
+private:
     int width;
     int height;
+    QPixmap* pixMap;
     int velocityX;
     int velocityY;
 };

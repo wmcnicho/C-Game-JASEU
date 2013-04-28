@@ -11,6 +11,7 @@
 #include <QString>
 #include <QTimeLine>
 #include <cmath>
+#include <iostream>
 #include <QGraphicsItemAnimation>
 #include <QPushButton>
 #include <vector>
@@ -23,9 +24,9 @@
 #include <QListView>
 #include <QLCDNumber>
 #include <QGridLayout>
-#include "jaseuwidget.h"
 #include "thing.h"
-
+#include "player.h"
+#include <QKeyEvent>
 
 class JaseuWindow : public QWidget {
     Q_OBJECT
@@ -47,6 +48,9 @@ public:
     @param value The number of the tile to be moved
     */
     //void moveTiles(int value);
+protected:
+     void keyPressEvent(QKeyEvent* e);
+     void keyReleaseEvent( QKeyEvent *e );
 
 private:
 /**The data member that stores the created widgets */
@@ -77,8 +81,11 @@ private:
     //Jaseu* gameWindow;
     
     QVBoxLayout* layout;
-
-
+    
+    
+    Player* player;
+    
+    std::vector<Thing*> things;
 
 public slots:
    void initialize();

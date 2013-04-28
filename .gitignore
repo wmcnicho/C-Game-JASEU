@@ -15,3 +15,10 @@
 #Temp files
 *.*~
 *.*orig
+
+#QT stuff
+Makefile
+game_wmcnicho
+game_wmcnicho.pro
+moc_jaseuwindow.cpp
+

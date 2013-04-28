@@ -40,7 +40,8 @@ JaseuWindow::JaseuWindow()  {
     view->setBackgroundBrush(blackBrush);
 
     timer = new QTimer(this);
-    timer->setInterval(5);
+    timer->setInterval(10);
+    connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
     
     layout = new QVBoxLayout;
     
@@ -89,21 +90,56 @@ JaseuWindow::JaseuWindow()  {
     connect(pause, SIGNAL(clicked()), this, SLOT(handlePause()));
 
     
-    
+    setFocusPolicy(Qt::StrongFocus);
 }
    void JaseuWindow::initialize(){
    scene->setSceneRect(0,0,780,590);
    QBrush greenBrush(Qt::green);
    QBrush redBrush(Qt::red);
-   Thing* bob = new Thing(PLAYER_SPAWN_X, PLAYER_SPAWN_Y, 10, 10, 0, 0 );
-   scene->addItem(bob);
+   QPixmap* image = new QPixmap("./images/playerShip.jpg");
+   player = new Player(image, PLAYER_SPAWN_X, PLAYER_SPAWN_Y);
+   scene->addItem(player);
+   timer->start();
    //Thing* bob2 = new Thing(150,150,10,10,0,0);
    //bob2->setBrush(redBrush);
    //scene->addItem(bob2);
    }
+   void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
+   
+          if( e->key() == Qt::Key_W){
+            if(player)
+            player->setVelocityY(1);
+            
+            }
+            if( e->key() == Qt::Key_S){
+            if(player)
+            player->setVelocityY(-1);
+            }
+            if( e->key() == Qt::Key_A){
+            if(player)
+            player->setVelocityX(-1);
+            }
+            if( e->key() == Qt::Key_D){
+            if(player)
+            player->setVelocityX(1);
+            }
+          
+
+} 
+   void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
+    if((e->key()==Qt::Key_A) || (e->key()==Qt::Key_D)){
+     player->setVelocityX(0);
+     }
+    if((e->key()==Qt::Key_W)||(e->key()==Qt::Key_S)){
+      player->setVelocityY(0);
+    }
+   }
 
    void JaseuWindow::handleTimer(){
-   
+   //cout << "timer is going" << endl;
+   player->updatePos();
+   //player->setVelocityX(0);
+   //player->setVelocityY(0);
    
    }
    void JaseuWindow::handlePause(){
