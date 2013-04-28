@@ -28,6 +28,7 @@
 #include "player.h"
 #include "crusher.h"
 #include <QKeyEvent>
+#include "gamemodel.h"
 
 class JaseuWindow : public QWidget {
     Q_OBJECT
@@ -57,7 +58,8 @@ protected:
      void keyReleaseEvent( QKeyEvent *e );
 
 private:
-
+    Game model;
+    
     int timeCounter;
     int spawnRate;
 

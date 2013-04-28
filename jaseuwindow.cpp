@@ -17,8 +17,10 @@
 using namespace std;
 
    void JaseuWindow::initialize(){
-   
-   
+    
+    scene->clear();
+    enemies.clear();
+    
     timeCounter = 0;
     spawnRate = 1;
    
@@ -91,7 +93,7 @@ using namespace std;
    
    
    player->updatePos();
-   if(timeCounter*spawnRate%100 == 0){
+   if(timeCounter*spawnRate%1000 == 0){
    Thing* newEnemy = spawnEnemy();
    scene -> addItem(newEnemy);
    enemies.push_back(newEnemy);
