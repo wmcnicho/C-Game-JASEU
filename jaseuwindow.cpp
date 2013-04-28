@@ -1,12 +1,17 @@
 #include "jaseuwindow.h"
 #include <qapplication.h>
 
+#define SCENE_WINDOW_Y 600
+#define SCENE_WINDOW_X 790
+#define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
+#define PLAYER_SPAWN_X SCENE_WINDOW_X/2
 
 using namespace std;
 JaseuWindow::JaseuWindow()  {
-    
+
+    //start: layout stuff    
     setFixedSize(1000, 750);
-    
+
     pause = new QPushButton("Pause");
     start = new QPushButton("Start");
     quit = new QPushButton("Quit");
@@ -14,7 +19,6 @@ JaseuWindow::JaseuWindow()  {
     livesLabel = new QLabel("Lives: ");
     continuesLabel = new QLabel("Continues Used: ");
     
-    /**A window that displays errors for debugging a user interaction*/
     debug = new QTextEdit();
     debug->setFixedSize(1000,50);
      
@@ -37,10 +41,6 @@ JaseuWindow::JaseuWindow()  {
 
     timer = new QTimer(this);
     timer->setInterval(5);
-    //connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
-
-    
-    //gameWindow = new Jaseu;
     
     layout = new QVBoxLayout;
     
@@ -81,9 +81,34 @@ JaseuWindow::JaseuWindow()  {
     layout->addWidget(debug);
     
     setLayout(layout);
+    //End: Layout stuff
+    
+    //start button connections
+    connect(start, SIGNAL(clicked()), this, SLOT(initialize()));
+    connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+    connect(pause, SIGNAL(clicked()), this, SLOT(handlePause()));
 
+    
+    
 }
+   void JaseuWindow::initialize(){
+   scene->setSceneRect(0,0,780,590);
+   QBrush greenBrush(Qt::green);
+   QBrush redBrush(Qt::red);
+   Thing* bob = new Thing(PLAYER_SPAWN_X, PLAYER_SPAWN_Y, 10, 10, 0, 0 );
+   scene->addItem(bob);
+   //Thing* bob2 = new Thing(150,150,10,10,0,0);
+   //bob2->setBrush(redBrush);
+   //scene->addItem(bob2);
+   }
 
+   void JaseuWindow::handleTimer(){
+   
+   
+   }
+   void JaseuWindow::handlePause(){
+   
+   }
 
 JaseuWindow::~JaseuWindow()
 {

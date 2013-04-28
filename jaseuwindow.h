@@ -24,6 +24,7 @@
 #include <QLCDNumber>
 #include <QGridLayout>
 #include "jaseuwidget.h"
+#include "thing.h"
 
 
 class JaseuWindow : public QWidget {
@@ -80,7 +81,9 @@ private:
 
 
 public slots:
-
+   void initialize();
+   void handleTimer();
+   void handlePause();
 
 };
 
