@@ -1,18 +1,6 @@
 #include "jaseuwindow.h"
 #include <qapplication.h>
 
-#define SCENE_WINDOW_Y 600
-#define SCENE_WINDOW_X 790
-#define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
-#define PLAYER_SPAWN_X SCENE_WINDOW_X/2
-#define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
-#define PLAYER_SPAWN_X SCENE_WINDOW_X/2
-#define ENEMY_SPAWN_1_X 75
-#define ENEMY_SPAWN_1_Y 75
-#define ENEMY_SPAWN_2_X SCENE_WINDOW_X-75
-#define ENEMY_SPAWN_2_Y 150
-#define ENEMY_SPAWN_M_X SCENE_WINDOW_X/2
-#define ENEMY_SPAWN_M_Y 125
 
 using namespace std;
 
@@ -73,7 +61,9 @@ void JaseuWindow::handleCollisions(){
 }
 
 void JaseuWindow::handlePause() {
-
+   if(!timer){
+    return;
+   }
     if(timer->isActive()) {
         timer->stop();
     }
@@ -108,7 +98,9 @@ Thing* JaseuWindow::spawnEnemy() {
         spawnY = ENEMY_SPAWN_M_Y;
     }
 
-    Thing* enemy = new Crusher(crusherShip, spawnX, spawnY);
+    Thing* enemy = new Top(topShip, spawnX, spawnY);
+    //Thing* enemy = new SonOfA(trollShip, spawnX, spawnY);
+    
     return enemy;
 }
 
@@ -147,14 +139,12 @@ void JaseuWindow::initialize() {
     model.reset();
     timeCounter = 0;
     spawnRate = 1;
-    
-
     setToDefaultPositions();
     
     timer->start();
 }
 void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
-    cout << "Key is " << e->key() << endl;
+    //cout << "Key is " << e->key() << endl;
     if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
         if(player)
             player->setVelocityY(1);
@@ -206,12 +196,22 @@ JaseuWindow::JaseuWindow()  {
     srand(time(0));
     
     player = NULL;
-
+    timer = NULL;
 
     playerShip = new QPixmap("./images/playerShip.jpg");
     crusherShip = new QPixmap("./images/crusher.png");
     laserImage = new QPixmap("./images/laser.jpg");
+    zShip = new QPixmap("./images/ZigZagger.png");
+    topShip = new QPixmap("./images/top.png");
+    shootShip = new QPixmap("./images/shooter1.jpg");
+    trollShip = new QPixmap("./images/troll.jpg");
+    
+    
+    timer = new QTimer(this);
+    timer->setInterval(10);
+    connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
 
+    
     //start: layout stuff
     setFixedSize(1000, 750);
 
@@ -260,10 +260,7 @@ JaseuWindow::JaseuWindow()  {
 
     view->setBackgroundBrush(blackBrush);
 
-    timer = new QTimer(this);
-    timer->setInterval(10);
-    connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
-
+    
     layout = new QVBoxLayout;
 
     QHBoxLayout* topButtons = new QHBoxLayout;

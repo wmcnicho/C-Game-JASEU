@@ -12,4 +12,4 @@ private:
 
 };
 
-#endif // Thing_H
+#endif

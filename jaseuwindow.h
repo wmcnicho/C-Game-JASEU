@@ -30,6 +30,11 @@
 #include <QKeyEvent>
 #include "gamemodel.h"
 #include "laser.h"
+#include "top.h"
+#include "zigzag.h"
+#include "shooter.h"
+#include "sonofa.h"
+
 
 class JaseuWindow : public QWidget {
     Q_OBJECT
@@ -69,6 +74,10 @@ private:
     //pixMap images
     QPixmap* playerShip; 
     QPixmap* crusherShip;
+    QPixmap* zShip;
+    QPixmap* topShip;
+    QPixmap* shootShip;
+    QPixmap* trollShip;
     
 /**The data member that stores the created widgets */
     QGraphicsScene *scene;

@@ -5,8 +5,8 @@ Thing::Thing(QPixmap* pm, int nx, int ny){
     setPixmap(*pm);
     x = nx;
     y = ny;
-    velocityX = 0;
-    velocityY = 0;
+    velocityX = 0.0;
+    velocityY = 0.0;
     setPos(x, y);
 }
 /*bool Thing::collidesWithItem(Thing* item){
@@ -31,19 +31,19 @@ void Thing::updatePos() {
    setPos(x, y);
 }
 
-int Thing::getVelocityX() {
+double Thing::getVelocityX() {
     return velocityX;
 }
 
-int Thing::getVelocityY() {
+double Thing::getVelocityY() {
     return velocityY;
 }
 
-void Thing::setVelocityX( int vx ) {
+void Thing::setVelocityX( double vx ) {
     velocityX = vx;
 }
 
-void Thing::setVelocityY( int vy ) {
+void Thing::setVelocityY( double vy ) {
     velocityY = vy;
 }
 

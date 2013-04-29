@@ -3,21 +3,28 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsPixmapItem>
 
-/**
-  This class maintains the location, size, and speed of a QGraphicsRectItem.
-  It is easier to do the arithmetic with this data, and then update the position
-  separately, then to extract coordinates from the QRectF that is contained within
-  the QGraphicsRectItem
-  */
+#define SCENE_WINDOW_Y 600
+#define SCENE_WINDOW_X 790
+#define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
+#define PLAYER_SPAWN_X SCENE_WINDOW_X/2
+#define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
+#define PLAYER_SPAWN_X SCENE_WINDOW_X/2
+#define ENEMY_SPAWN_1_X 75
+#define ENEMY_SPAWN_1_Y 75
+#define ENEMY_SPAWN_2_X SCENE_WINDOW_X-75
+#define ENEMY_SPAWN_2_Y 150
+#define ENEMY_SPAWN_M_X SCENE_WINDOW_X/2
+#define ENEMY_SPAWN_M_Y 125
+
 class Thing : public QGraphicsPixmapItem {
 public:
     Thing(QPixmap* pm, int nx, int ny);
     int getX();
     int getY();
-    int getVelocityX();
-    int getVelocityY();
-    void setVelocityX(int x);
-    void setVelocityY(int y);
+    double getVelocityX();
+    double getVelocityY();
+    void setVelocityX(double x);
+    void setVelocityY(double y);
     void setX(int nx);
     void setY(int ny);
     virtual void changePos() = 0;
@@ -33,8 +40,8 @@ private:
     int width;
     int height;
     QPixmap* pixMap;
-    int velocityX;
-    int velocityY;
+    double velocityX;
+    double velocityY;
 };
 
 #endif // Thing_H
