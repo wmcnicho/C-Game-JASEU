@@ -23,6 +23,7 @@
 #include <QRadioButton>
 #include <QListView>
 #include <QLCDNumber>
+#include <string>
 #include <QGridLayout>
 #include "thing.h"
 #include "player.h"
@@ -34,7 +35,7 @@
 #include "zigzag.h"
 #include "shooter.h"
 #include "sonofa.h"
-
+using namespace std;
 
 class JaseuWindow : public QWidget {
     Q_OBJECT
@@ -67,6 +68,9 @@ protected:
 
 private:
     Game model;
+    
+    string name;
+    bool wait;
     
     int timeCounter;
     double spawnRate;

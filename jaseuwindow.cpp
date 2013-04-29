@@ -8,6 +8,11 @@ using namespace std;
 
 void JaseuWindow::handleTimer() {
     //cout << "timer is going" << endl;
+    if(model.getLives()<0)
+    {
+    timer->stop();
+    return;
+    }
     timeCounter++;
     increaseSpeed++;
     if(increaseSpeed%10000==0)
@@ -201,9 +206,13 @@ void JaseuWindow::initialize() {
 
     scene->clear();
     enemies.clear();
+    goodies.clear();
     model.reset();
     timeCounter = 0;
     spawnRate = 1;
+    speed = 10;
+    increaseSpeed =0;
+    timer->setInterval(10);
     setToDefaultPositions();
 
     model.go();
@@ -213,27 +222,27 @@ void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
     //cout << "Key is " << e->key() << endl;
     if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
         if(player) {
-                player->setVelocityY(1);
+                player->setVelocityY(2);
 
         }
         return;
     }
     if(( e->key() == Qt::Key_S) || (e->key() == Qt::Key_Down) ) {
         if(player) {
-                player->setVelocityY(-1);
+                player->setVelocityY(-2);
         }
         return;
     }
     if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ) {
         if(player) {
-               player->setVelocityX(-1);
+               player->setVelocityX(-2);
 
         }
         return;
     }
     if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ) {
         if(player) {
-               player->setVelocityX(1);
+               player->setVelocityX(2);
         }
         return;
     }
@@ -279,6 +288,7 @@ void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
 
 JaseuWindow::JaseuWindow()  {
     srand(time(0));
+    
 
     player = NULL;
     timer = NULL;
