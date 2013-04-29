@@ -7,8 +7,11 @@ Top::Top(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny){
     originY = ny+radius;
     originX = nx;
     speed = 1.5;
+    points = 100;
 }
-
+int Top::getPoints() {
+   return 100;
+}
 
 void Top::changePos() {
     

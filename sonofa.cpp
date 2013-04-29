@@ -3,9 +3,11 @@
 SonOfA::SonOfA(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny){
     good = false;
     counter = 0;
+    points = 500;
 }
-
-
+int SonOfA::getPoints() {
+ return 500;
+}
 void SonOfA::changePos() {
     counter++;
     if(counter%10 == 0){

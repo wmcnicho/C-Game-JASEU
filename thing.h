@@ -18,6 +18,7 @@
 
 class Thing : public QGraphicsPixmapItem {
 public:
+    //virtual ~Thing();
     Thing(QPixmap* pm, int nx, int ny);
     int getX();
     int getY();
@@ -30,11 +31,13 @@ public:
     virtual void changePos() = 0;
     bool inPlay();
     void updatePos();
+    int getPoints(){return points;}
     
 protected:
     int x;
     int y;
     bool good;
+    int points;
 
 private:
     int width;

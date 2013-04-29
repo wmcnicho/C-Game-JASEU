@@ -3,7 +3,12 @@
 Zigzag::Zigzag(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny){
     good = false;
     setVelocityX(2);
+    points = 100;
  }
+ 
+int Zigzag::getPoints() {
+  return 100;
+}
 
 
 void Zigzag::changePos() {

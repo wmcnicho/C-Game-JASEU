@@ -7,6 +7,7 @@ class Top : public Thing {
 public:
     Top(QPixmap* pm, int nx, int ny);
     void changePos();
+    int getPoints();
 
 private:
    double originX;

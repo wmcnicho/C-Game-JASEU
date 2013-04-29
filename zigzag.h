@@ -7,6 +7,7 @@ class Zigzag : public Thing {
 public:
     Zigzag(QPixmap* pm, int nx, int ny);
     void changePos();
+    int getPoints();
 
 private:
 

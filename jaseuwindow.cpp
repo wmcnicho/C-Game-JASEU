@@ -78,7 +78,7 @@ void JaseuWindow::handleCollisions() {
                 scene->removeItem(enemies[j]);
                 goodies.erase(goodies.begin() + i);
                 enemies.erase(enemies.begin() + j);
-                model.updateScore(10);
+                model.updateScore(enemies[j]->getPoints());
                 continue;
             }
         }

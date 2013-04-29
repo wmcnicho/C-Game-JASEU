@@ -7,6 +7,7 @@ class Crusher : public Thing {
 public:
     Crusher(QPixmap* pm, int nx, int ny);
     void changePos();
+    int getPoints();
 
 private:
 

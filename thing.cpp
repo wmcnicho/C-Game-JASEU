@@ -8,6 +8,7 @@ Thing::Thing(QPixmap* pm, int nx, int ny){
     velocityX = 0.0;
     velocityY = 0.0;
     setPos(x, y);
+    points = 0;
 }
 
     bool Thing::inPlay(){

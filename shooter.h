@@ -7,6 +7,7 @@ class Shooter : public Thing {
 public:
     Shooter(QPixmap* pm, int nx, int ny);
     void changePos();
+    int getPoints();
 
 private:
 
