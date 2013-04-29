@@ -14,7 +14,6 @@ void JaseuWindow::handleTimer() {
         model.updateScore(10);
     }
 
-    player->updatePos();
     if(timeCounter*spawnRate%500 == 0) {
         Thing* newEnemy = spawnEnemy();
         scene -> addItem(newEnemy);
@@ -61,18 +60,20 @@ void JaseuWindow::handleCollisions(){
 }
 
 void JaseuWindow::handlePause() {
-   if(!timer){
+    if(model.start() == false){
     return;
-   }
+    
+    }
     if(timer->isActive()) {
         timer->stop();
     }
-    else {
+    else if(!timer->isActive()){
         timer->start();
     }
 }
 
 Thing* JaseuWindow::spawnEnemy() {
+    int type = rand()%10;
     int randX = rand()%3;
     int randY = rand()%2;
     int spawnX = 0;
@@ -97,9 +98,22 @@ Thing* JaseuWindow::spawnEnemy() {
         spawnX = ENEMY_SPAWN_M_X;
         spawnY = ENEMY_SPAWN_M_Y;
     }
-
-    Thing* enemy = new Top(topShip, spawnX, spawnY);
-    //Thing* enemy = new SonOfA(trollShip, spawnX, spawnY);
+    Thing* enemy;
+    if((type>=0)&&(type<3)){
+    enemy = new Crusher(crusherShip, spawnX, spawnY);
+    }
+    if((type>=3)&&(type<5)){
+    enemy = new Zigzag(zShip, spawnX, spawnY);
+    }
+    if(((type>=5)&&(type<7))){
+    enemy = new Shooter(shootShip, spawnX, spawnY);
+    }
+    if((type>=7)&&(type<8)){
+    enemy = new Top(topShip, spawnX, spawnY);
+    }
+    if(type>=9){
+    enemy = new SonOfA(trollShip, spawnX, spawnY);
+    }
     
     return enemy;
 }
@@ -133,14 +147,15 @@ void JaseuWindow::setToDefaultPositions(){
 
 
 void JaseuWindow::initialize() {
-    
+
     scene->clear();
     enemies.clear();
     model.reset();
     timeCounter = 0;
     spawnRate = 1;
     setToDefaultPositions();
-    
+        
+    model.go();
     timer->start();
 }
 void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
@@ -225,8 +240,7 @@ JaseuWindow::JaseuWindow()  {
     debug = new QTextEdit();
     debug->setFixedSize(1000,50);
 
-    //lcd.setAutoFillBackground(true);// see the different if you comment that line out.
-
+    
 
     score = new QLCDNumber();
     score->setAutoFillBackground(true);
@@ -315,7 +329,7 @@ JaseuWindow::JaseuWindow()  {
 
 void JaseuWindow::updateNums() {
 
-    score->display(model.getScore());
+    score->display(model.getScore()/10);
     lives->display(model.getLives());
     continues->display(model.getCont());
 
