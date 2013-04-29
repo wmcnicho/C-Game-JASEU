@@ -12,12 +12,13 @@ void JaseuWindow::handleTimer() {
 
     if(timeCounter%100 == 0) {
         model.updateScore(10);
+        //spawnRate+=.05;
     }
 
     if(timeCounter*spawnRate%500 == 0) {
         Thing* newEnemy = spawnEnemy();
-        scene -> addItem(newEnemy);
-        enemies.push_back(newEnemy);
+        //scene -> addItem(newEnemy);
+        //enemies.push_back(newEnemy);
     }
     handleCollisions();
     for(unsigned int i=0; i<goodies.size(); i++) {
@@ -28,31 +29,49 @@ void JaseuWindow::handleTimer() {
         enemies[i]->changePos();
         enemies[i]->updatePos();
     }
-    
-    
+    for(unsigned int i=0; i < enemies.size()+goodies.size(); i++) {
+        if( (i>enemies.size())&&(i>goodies.size()) ) {
+            break;
+        }
+        if(i<enemies.size() )
+        {
+            if(!enemies[i]->inPlay()) {
+                scene->removeItem(enemies[i]);
+                enemies.erase(enemies.begin() + i);
+            }
+        }
+        if(i<goodies.size())
+        {
+            if(!goodies[i]->inPlay()) {
+                scene->removeItem(goodies[i]);
+                goodies.erase(goodies.begin() + i);
+            }
+        }
+    }
+
     updateNums();
 }
 
-void JaseuWindow::handleCollisions(){
+void JaseuWindow::handleCollisions() {
     for(unsigned int i=0; i<goodies.size(); i++) {
-        for(unsigned int j=0; j<enemies.size(); j++){
-          if(goodies[i]->collidesWithItem(enemies[j]) )
-             {
-               if(goodies[i] == player){
-               model.removeLife();
-               scene->clear();
-               enemies.clear();
-               goodies.clear();
-               setToDefaultPositions();
-               return;
-               }
-               goodies.erase(goodies.begin() + i);
-               enemies.erase(enemies.begin() + j);
-               scene->removeItem(goodies[i]);
-               scene->removeItem(enemies[j]);
-               model.updateScore(10);
-               continue;
-             }
+        for(unsigned int j=0; j<enemies.size(); j++) {
+            if( (goodies[i]->collidesWithItem(enemies[j])) ||  (goodies[i]->collidesWithItem(enemies[j])) )
+            {
+                if(goodies[i] == player) {
+                    model.removeLife();
+                    scene->clear();
+                    enemies.clear();
+                    goodies.clear();
+                    setToDefaultPositions();
+                    return;
+                }
+                scene->removeItem(goodies[i]);
+                scene->removeItem(enemies[j]);
+                goodies.erase(goodies.begin() + i);
+                enemies.erase(enemies.begin() + j);
+                model.updateScore(10);
+                continue;
+            }
         }
     }
 
@@ -60,14 +79,14 @@ void JaseuWindow::handleCollisions(){
 }
 
 void JaseuWindow::handlePause() {
-    if(model.start() == false){
-    return;
-    
+    if(model.start() == false) {
+        return;
+
     }
     if(timer->isActive()) {
         timer->stop();
     }
-    else if(!timer->isActive()){
+    else if(!timer->isActive()) {
         timer->start();
     }
 }
@@ -99,28 +118,31 @@ Thing* JaseuWindow::spawnEnemy() {
         spawnY = ENEMY_SPAWN_M_Y;
     }
     Thing* enemy;
-    if((type>=0)&&(type<3)){
-    enemy = new Crusher(crusherShip, spawnX, spawnY);
+    if((type>=0)&&(type<3)) {
+        enemy = new Crusher(crusherShip, spawnX, spawnY);
     }
-    if((type>=3)&&(type<5)){
-    enemy = new Zigzag(zShip, spawnX, spawnY);
+    if((type>=3)&&(type<5)) {
+        enemy = new Zigzag(zShip, spawnX, spawnY);
     }
-    if(((type>=5)&&(type<7))){
-    enemy = new Shooter(shootShip, spawnX, spawnY);
+    if(((type>=5)&&(type<7))) {
+        enemy = new Shooter(shootShip, spawnX, spawnY);
     }
-    if((type>=7)&&(type<8)){
-    enemy = new Top(topShip, spawnX, spawnY);
+    if((type>=7)&&(type<8)) {
+        //enemy = new Top(topShip, spawnX, spawnY);
     }
-    if(type>=9){
-    enemy = new SonOfA(trollShip, spawnX, spawnY);
+    if(type>=9) {
+        enemy = new SonOfA(trollShip, spawnX, spawnY);
     }
-    
+
     return enemy;
 }
 
-void JaseuWindow::setToDefaultPositions(){
+void JaseuWindow::setToDefaultPositions() {
     QBrush greenBrush(Qt::green);
     QBrush redBrush(Qt::red);
+    QBrush blueBrush(Qt::blue);
+
+    //spawners
     QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
     spawn1->setBrush(redBrush);
     scene->addItem(spawn1);
@@ -140,6 +162,21 @@ void JaseuWindow::setToDefaultPositions(){
     pSpawn->setBrush(greenBrush);
     scene->addItem(pSpawn);
 
+    //walls
+    QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
+    leftWall->setBrush(blueBrush);
+    scene->addItem(leftWall);
+    QGraphicsRectItem* rightWall = new QGraphicsRectItem(SCENE_WINDOW_X-5, 0, 5, SCENE_WINDOW_Y);
+    rightWall->setBrush(blueBrush);
+    scene->addItem(rightWall);
+    QGraphicsRectItem* topWall = new QGraphicsRectItem(0, 0, SCENE_WINDOW_X, 5);
+    topWall->setBrush(blueBrush);
+    scene->addItem(topWall);
+    QGraphicsRectItem* botWall = new QGraphicsRectItem(0, SCENE_WINDOW_Y-5, SCENE_WINDOW_X, 5);
+    botWall->setBrush(blueBrush);
+    scene->addItem(botWall);
+
+
     player = new Player(playerShip, PLAYER_SPAWN_X, PLAYER_SPAWN_Y);
     scene->addItem(player);
     goodies.push_back(player);
@@ -154,62 +191,85 @@ void JaseuWindow::initialize() {
     timeCounter = 0;
     spawnRate = 1;
     setToDefaultPositions();
-        
+
     model.go();
     timer->start();
 }
 void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
     //cout << "Key is " << e->key() << endl;
     if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
-        if(player)
-            player->setVelocityY(1);
+        if(player) {
+            if(player->getY() > 10)
+                player->setVelocityY(1);
 
+        }
+        return;
     }
     if(( e->key() == Qt::Key_S) || (e->key() == Qt::Key_Down) ) {
-        if(player)
-            player->setVelocityY(-1);
+        if(player) {
+            if(player->getY() < SCENE_WINDOW_Y -20)
+                player->setVelocityY(-1);
+        }
+        return;
     }
-    if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ){
-        if(player)
-            player->setVelocityX(-1);
+    if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ) {
+        if(player) {
+            if(player->getX() > 10)
+                player->setVelocityX(-1);
+
+        }
+        return;
     }
-    if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ){
-        if(player)
-            player->setVelocityX(1);
+    if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ) {
+        if(player) {
+            if(player->getX() < SCENE_WINDOW_X-20)
+                player->setVelocityX(1);
+        }
+        return;
     }
 
 
 }
 void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
     if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
-        if(player)
-            player->setVelocityY(0);
-
+        if(player) {
+            if(player->getVelocityY()>0)
+                player->setVelocityY(0);
+        }
     }
     if(( e->key() == Qt::Key_S) || (e->key() == Qt::Key_Down) ) {
         if(player)
-            player->setVelocityY(0);
+        {
+            if(player->getVelocityY()<0)
+
+                player->setVelocityY(0);
+        }
     }
-    if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ){
+    if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ) {
         if(player)
-            player->setVelocityX(0);
+        {   if(player->getVelocityX()<0)
+
+                player->setVelocityX(0);
+        }
     }
-    if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ){
-        if(player)
-            player->setVelocityX(0);
+    if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ) {
+        if(player) {
+            if(player->getVelocityX()>0)
+                player->setVelocityX(0);
+        }
     }
     if((e->key() == Qt::Key_F)|| (e->key() == 16777220)  || (e->key() == 32) ) {
-       if(player){
-       Laser* bullet = new Laser(laserImage, player->getX(), player->getY());
-       scene -> addItem(bullet);
-       goodies.push_back(bullet);
-       }
+        if(player) {
+            Laser* bullet = new Laser(laserImage, player->getX(), player->getY());
+            scene -> addItem(bullet);
+            goodies.push_back(bullet);
+        }
     }
 }
 
 JaseuWindow::JaseuWindow()  {
     srand(time(0));
-    
+
     player = NULL;
     timer = NULL;
 
@@ -220,15 +280,15 @@ JaseuWindow::JaseuWindow()  {
     topShip = new QPixmap("./images/top.png");
     shootShip = new QPixmap("./images/shooter1.jpg");
     trollShip = new QPixmap("./images/troll.jpg");
-    
-    
+
+
     timer = new QTimer(this);
     timer->setInterval(10);
     connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
 
-    
+
     //start: layout stuff
-    setFixedSize(1000, 750);
+    setFixedSize(1000, 700);
 
     pause = new QPushButton("Pause");
     start = new QPushButton("Start");
@@ -240,7 +300,7 @@ JaseuWindow::JaseuWindow()  {
     debug = new QTextEdit();
     debug->setFixedSize(1000,50);
 
-    
+
 
     score = new QLCDNumber();
     score->setAutoFillBackground(true);
@@ -270,11 +330,12 @@ JaseuWindow::JaseuWindow()  {
 
     scene = new QGraphicsScene();
     view = new QGraphicsView( scene );
-    view->setFixedSize( 790, 600);
+    view->setFixedSize( SCENE_WINDOW_X+10, SCENE_WINDOW_Y+10);
 
     view->setBackgroundBrush(blackBrush);
+    scene->setSceneRect(0,0,SCENE_WINDOW_X,SCENE_WINDOW_Y);
 
-    
+
     layout = new QVBoxLayout;
 
     QHBoxLayout* topButtons = new QHBoxLayout;
@@ -312,7 +373,7 @@ JaseuWindow::JaseuWindow()  {
 
     layout->addLayout(topButtons);
     layout->addLayout(middleStuff);
-    layout->addWidget(debug);
+//    layout->addWidget(debug);
 
     setLayout(layout);
     //End: Layout stuff
@@ -322,8 +383,7 @@ JaseuWindow::JaseuWindow()  {
     connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
     connect(pause, SIGNAL(clicked()), this, SLOT(handlePause()));
 
-    scene->setSceneRect(0,0,780,590);
-        
+
     setFocusPolicy(Qt::StrongFocus);
 }
 

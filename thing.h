@@ -4,7 +4,7 @@
 #include <QGraphicsPixmapItem>
 
 #define SCENE_WINDOW_Y 600
-#define SCENE_WINDOW_X 790
+#define SCENE_WINDOW_X 720
 #define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
 #define PLAYER_SPAWN_X SCENE_WINDOW_X/2
 #define PLAYER_SPAWN_Y SCENE_WINDOW_Y-75
@@ -28,7 +28,7 @@ public:
     void setX(int nx);
     void setY(int ny);
     virtual void changePos() = 0;
-    //bool collidesWithItem(Thing* item);
+    bool inPlay();
     void updatePos();
     
 protected:

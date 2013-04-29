@@ -9,21 +9,14 @@ Thing::Thing(QPixmap* pm, int nx, int ny){
     velocityY = 0.0;
     setPos(x, y);
 }
-/*bool Thing::collidesWithItem(Thing* item){
-    int x2 = item->getX();
-    int y2 = item->getY();
-    if(item->good == good){
+
+    bool Thing::inPlay(){
+    if((y>SCENE_WINDOW_Y)||(y<-2)){
     return false;
     }
-    else
-    {
-    if( (x==x2) && (y == y2) ){
-    std::cout<< "COLLIDE" << std::endl;
     return true;
     }
-    }
-    return false;
-}*/
+
 
 void Thing::updatePos() {
    y -= getVelocityY();
