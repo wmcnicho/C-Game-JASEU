@@ -9,16 +9,25 @@ using namespace std;
 void JaseuWindow::handleTimer() {
     //cout << "timer is going" << endl;
     timeCounter++;
-
+    increaseSpeed++;
+    if(increaseSpeed%10000==0)
+     {
+     speed--;
+     if(speed<1){
+        speed =1;
+     }
+     timer->setInterval(speed);
+     }
     if(timeCounter%100 == 0) {
         model.updateScore(10);
-        //spawnRate+=.05;
     }
-
-    if(timeCounter*spawnRate%500 == 0) {
+    int temp = static_cast<unsigned int>(timeCounter*spawnRate);
+    if(temp >= 500) {
         Thing* newEnemy = spawnEnemy();
         scene -> addItem(newEnemy);
         enemies.push_back(newEnemy);
+        spawnRate+=.1;
+        timeCounter = 0;
     }
     handleCollisions();
     for(unsigned int i=0; i<goodies.size(); i++) {
@@ -92,12 +101,16 @@ void JaseuWindow::handlePause() {
 }
 
 Thing* JaseuWindow::spawnEnemy() {
-    int type = rand()%10;
+    
+    int adjust = static_cast<int>(spawnRate + 0.5);
+    if(adjust>9)
+    	adjust = 10;
+    int type = rand()%adjust;
     int randX = rand()%3;
     int randY = rand()%2;
     int spawnX = 0;
     int spawnY = 0;
-
+    
     if(randX==1) {
         spawnX = ENEMY_SPAWN_1_X;
 
@@ -269,6 +282,8 @@ JaseuWindow::JaseuWindow()  {
 
     player = NULL;
     timer = NULL;
+    speed = 10;
+    increaseSpeed = 0;
 
     playerShip = new QPixmap("./images/playerShip.jpg");
     crusherShip = new QPixmap("./images/crusher.png");
@@ -280,7 +295,7 @@ JaseuWindow::JaseuWindow()  {
 
 
     timer = new QTimer(this);
-    timer->setInterval(10);
+    timer->setInterval(speed);
     connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
 
 
@@ -292,7 +307,7 @@ JaseuWindow::JaseuWindow()  {
     quit = new QPushButton("Quit");
     scoreLabel = new QLabel("Score: ");
     livesLabel = new QLabel("Lives: ");
-    continuesLabel = new QLabel("Continues Used: ");
+    //continuesLabel = new QLabel("Continues Used: ");
 
     debug = new QTextEdit();
     debug->setFixedSize(1000,50);
@@ -314,12 +329,12 @@ JaseuWindow::JaseuWindow()  {
     lives->setSegmentStyle(QLCDNumber::Filled);
     lives->setFixedSize(100,25);
     lives->display(model.getLives());
-    continues = new QLCDNumber();
+    /*continues = new QLCDNumber();
     continues->setAutoFillBackground(true);
     continues->setPalette(scorePal);
     continues->setFixedSize(100,25);
     continues->setSegmentStyle(QLCDNumber::Filled);
-    continues->display(model.getCont());
+    continues->display(model.getCont());*/
 
     QBrush greenBrush(Qt::green);
     QBrush blackBrush(Qt::black);
@@ -357,11 +372,11 @@ JaseuWindow::JaseuWindow()  {
 
     sideInterface->addLayout(livesLayout);
 
-    QHBoxLayout* continueLayout = new QHBoxLayout;
-    continueLayout->addWidget(continuesLabel);
-    continueLayout->addWidget(continues);
+    //QHBoxLayout* continueLayout = new QHBoxLayout;
+    //continueLayout->addWidget(continuesLabel);
+    //continueLayout->addWidget(continues);
 
-    sideInterface->addLayout(continueLayout);
+    //sideInterface->addLayout(continueLayout);
     sideInterface->addWidget(quit);
 
     middleStuff->addLayout(sideInterface);
@@ -388,7 +403,7 @@ void JaseuWindow::updateNums() {
 
     score->display(model.getScore()/10);
     lives->display(model.getLives());
-    continues->display(model.getCont());
+    //continues->display(model.getCont());
 
 
 }

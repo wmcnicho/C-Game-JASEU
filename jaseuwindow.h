@@ -69,7 +69,9 @@ private:
     Game model;
     
     int timeCounter;
-    int spawnRate;
+    double spawnRate;
+    int speed;
+    int increaseSpeed;
 
     //pixMap images
     QPixmap* playerShip; 

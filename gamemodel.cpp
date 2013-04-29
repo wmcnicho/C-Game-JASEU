@@ -37,9 +37,9 @@ void Game::addLife() {
 void Game::updateScore(int s) {
     score += s*scoreRate;
     newLife += s*scoreRate;
-    if(newLife >499) {
+    if(newLife >4999) {
         lives++;
-        newLife -= 500;
+        newLife -= 5000;
     }
 
 }
