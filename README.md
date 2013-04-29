@@ -1,12 +1,12 @@
 # Game - Programming Assignments Private Repository
 ### Student Information
-  + Name: Tommy Trojan
+  + Name: William McNichols
   + USC Email: ttrojan@usc.edu
   + USC ID: 0123456789
 
 ### Game Information
-  + Game Name: myAwsomeGame
-  + Game Description: One sentence game description
+  + Game Name: JASEU
+  + Game Description: "Just Another Shoot Em' Up"
   + [Game Design Doc](GameDesignDoc.md)
 
 

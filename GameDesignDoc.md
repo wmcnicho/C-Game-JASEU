@@ -16,37 +16,7 @@ ship is hit by a projectile or enemy unit the play loses a life.  If a player sc
 with 3 lives. As time goes on the game will get progressively harder.
 
 #Scoring
-Score increases incrementally as time goes on (1 point every 2 seconds). Points are also gained by destroying enemies.
+Score increases incrementally as time goes on (1 point every tick, tick interval increases over time). Points are also gained by destroying enemies.
 
 #Layout
 ![layout](./images/layout.jpg "Layout")
-
-#Ignore this stuff
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
-
->Blockquotes are done as such.
-
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
-
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
-
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
-
-
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
-
