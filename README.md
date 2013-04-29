@@ -12,14 +12,22 @@
 
 ### Compile & Run Instructions
 The grader should use the following procedure to compile and run the code:
-```shell
+
 #Compile Instructions
-echo "Write command here"
+```shell
+qmake -project
+qmake
+make
+```
 #Doxygen Instructions
-echo "Write command here"
+In order to generate the doxygen html files the following should be typed:
+```shell
+doxygen -g config.txt
+doxygen config.txt
+```
 #Command to run
-echo "Write command here"
+```shell
+./puzzle_wmcnicho
 ```
 
-### Screenshots -- [Optional]
-You can either remove this section or add screenshots if you wish.
+
