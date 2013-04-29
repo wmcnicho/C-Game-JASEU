@@ -63,6 +63,7 @@ void JaseuWindow::handleCollisions(){
                enemies.erase(enemies.begin() + j);
                scene->removeItem(goodies[i]);
                scene->removeItem(enemies[j]);
+               model.updateScore(10);
                continue;
              }
         }
@@ -153,21 +154,21 @@ void JaseuWindow::initialize() {
     timer->start();
 }
 void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
-
-    if( e->key() == Qt::Key_W) {
+    cout << "Key is " << e->key() << endl;
+    if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
         if(player)
             player->setVelocityY(1);
 
     }
-    if( e->key() == Qt::Key_S) {
+    if(( e->key() == Qt::Key_S) || (e->key() == Qt::Key_Down) ) {
         if(player)
             player->setVelocityY(-1);
     }
-    if( e->key() == Qt::Key_A) {
+    if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ){
         if(player)
             player->setVelocityX(-1);
     }
-    if( e->key() == Qt::Key_D) {
+    if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ){
         if(player)
             player->setVelocityX(1);
     }
@@ -175,23 +176,36 @@ void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
 
 }
 void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
-    if((e->key()==Qt::Key_A) || (e->key()==Qt::Key_D)) {
-        player->setVelocityX(0);
+    if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
+        if(player)
+            player->setVelocityY(0);
+
     }
-    if((e->key()==Qt::Key_W)||(e->key()==Qt::Key_S)) {
-        player->setVelocityY(0);
+    if(( e->key() == Qt::Key_S) || (e->key() == Qt::Key_Down) ) {
+        if(player)
+            player->setVelocityY(0);
     }
-    if(e->key() == Qt::Key_F){
-       
+    if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ){
+        if(player)
+            player->setVelocityX(0);
+    }
+    if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ){
+        if(player)
+            player->setVelocityX(0);
+    }
+    if((e->key() == Qt::Key_F)|| (e->key() == 16777220)  || (e->key() == 32) ) {
+       if(player){
        Laser* bullet = new Laser(laserImage, player->getX(), player->getY());
        scene -> addItem(bullet);
        goodies.push_back(bullet);
+       }
     }
 }
 
 JaseuWindow::JaseuWindow()  {
     srand(time(0));
-
+    
+    player = NULL;
 
 
     playerShip = new QPixmap("./images/playerShip.jpg");
