@@ -17,8 +17,8 @@ void JaseuWindow::handleTimer() {
 
     if(timeCounter*spawnRate%500 == 0) {
         Thing* newEnemy = spawnEnemy();
-        //scene -> addItem(newEnemy);
-        //enemies.push_back(newEnemy);
+        scene -> addItem(newEnemy);
+        enemies.push_back(newEnemy);
     }
     handleCollisions();
     for(unsigned int i=0; i<goodies.size(); i++) {
@@ -38,14 +38,14 @@ void JaseuWindow::handleTimer() {
             if(!enemies[i]->inPlay()) {
                 scene->removeItem(enemies[i]);
                 enemies.erase(enemies.begin() + i);
-            }
+                 }
         }
         if(i<goodies.size())
         {
             if(!goodies[i]->inPlay()) {
                 scene->removeItem(goodies[i]);
                 goodies.erase(goodies.begin() + i);
-            }
+                }
         }
     }
 
@@ -127,8 +127,8 @@ Thing* JaseuWindow::spawnEnemy() {
     if(((type>=5)&&(type<7))) {
         enemy = new Shooter(shootShip, spawnX, spawnY);
     }
-    if((type>=7)&&(type<8)) {
-        //enemy = new Top(topShip, spawnX, spawnY);
+    if((type>=7)&&(type<9)) {
+        enemy = new Top(topShip, spawnX, spawnY);
     }
     if(type>=9) {
         enemy = new SonOfA(trollShip, spawnX, spawnY);
@@ -143,7 +143,7 @@ void JaseuWindow::setToDefaultPositions() {
     QBrush blueBrush(Qt::blue);
 
     //spawners
-    QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
+    /*QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
     spawn1->setBrush(redBrush);
     scene->addItem(spawn1);
     QGraphicsRectItem* spawn2 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_2_Y, 10, 10);
@@ -161,9 +161,10 @@ void JaseuWindow::setToDefaultPositions() {
     QGraphicsRectItem* pSpawn = new QGraphicsRectItem(PLAYER_SPAWN_X, PLAYER_SPAWN_Y, 10, 10);
     pSpawn->setBrush(greenBrush);
     scene->addItem(pSpawn);
+    */
 
     //walls
-    QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
+    /*QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
     leftWall->setBrush(blueBrush);
     scene->addItem(leftWall);
     QGraphicsRectItem* rightWall = new QGraphicsRectItem(SCENE_WINDOW_X-5, 0, 5, SCENE_WINDOW_Y);
@@ -175,7 +176,7 @@ void JaseuWindow::setToDefaultPositions() {
     QGraphicsRectItem* botWall = new QGraphicsRectItem(0, SCENE_WINDOW_Y-5, SCENE_WINDOW_X, 5);
     botWall->setBrush(blueBrush);
     scene->addItem(botWall);
-
+    */
 
     player = new Player(playerShip, PLAYER_SPAWN_X, PLAYER_SPAWN_Y);
     scene->addItem(player);
@@ -199,7 +200,6 @@ void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
     //cout << "Key is " << e->key() << endl;
     if(( e->key() == Qt::Key_W) || (e->key() == Qt::Key_Up) ) {
         if(player) {
-            if(player->getY() > 10)
                 player->setVelocityY(1);
 
         }
@@ -207,23 +207,20 @@ void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
     }
     if(( e->key() == Qt::Key_S) || (e->key() == Qt::Key_Down) ) {
         if(player) {
-            if(player->getY() < SCENE_WINDOW_Y -20)
                 player->setVelocityY(-1);
         }
         return;
     }
     if(( e->key() == Qt::Key_A) || (e->key() == Qt::Key_Left) ) {
         if(player) {
-            if(player->getX() > 10)
-                player->setVelocityX(-1);
+               player->setVelocityX(-1);
 
         }
         return;
     }
     if(( e->key() == Qt::Key_D) || (e->key() == Qt::Key_Right) ) {
         if(player) {
-            if(player->getX() < SCENE_WINDOW_X-20)
-                player->setVelocityX(1);
+               player->setVelocityX(1);
         }
         return;
     }

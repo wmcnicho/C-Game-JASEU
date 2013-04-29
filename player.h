@@ -8,7 +8,7 @@
 class Player : public Thing {
 public:
     Player(QPixmap* pm, int nx, int ny);
-    void changePos(){}
+    void changePos();
     int getX();
     int getY();
   

@@ -9,9 +9,10 @@ public:
     void changePos();
 
 private:
-   int originX;
-   int originY;
+   double originX;
+   double originY;
    double radius;
+   double speed;
 };
 
 #endif
