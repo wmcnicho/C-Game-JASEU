@@ -161,7 +161,7 @@ void JaseuWindow::setToDefaultPositions() {
     QBrush blueBrush(Qt::blue);
 
     //spawners
-    /*QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
+    QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
     spawn1->setBrush(redBrush);
     scene->addItem(spawn1);
     QGraphicsRectItem* spawn2 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_2_Y, 10, 10);
@@ -179,10 +179,10 @@ void JaseuWindow::setToDefaultPositions() {
     QGraphicsRectItem* pSpawn = new QGraphicsRectItem(PLAYER_SPAWN_X, PLAYER_SPAWN_Y, 10, 10);
     pSpawn->setBrush(greenBrush);
     scene->addItem(pSpawn);
-    */
+    
 
     //walls
-    /*QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
+    QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
     leftWall->setBrush(blueBrush);
     scene->addItem(leftWall);
     QGraphicsRectItem* rightWall = new QGraphicsRectItem(SCENE_WINDOW_X-5, 0, 5, SCENE_WINDOW_Y);
@@ -194,7 +194,7 @@ void JaseuWindow::setToDefaultPositions() {
     QGraphicsRectItem* botWall = new QGraphicsRectItem(0, SCENE_WINDOW_Y-5, SCENE_WINDOW_X, 5);
     botWall->setBrush(blueBrush);
     scene->addItem(botWall);
-    */
+    
 
     player = new Player(playerShip, PLAYER_SPAWN_X, PLAYER_SPAWN_Y);
     scene->addItem(player);
@@ -295,18 +295,23 @@ JaseuWindow::JaseuWindow()  {
     speed = 10;
     increaseSpeed = 0;
 
-    playerShip = new QPixmap("./images/playerShip.jpg");
-    crusherShip = new QPixmap("./images/crusher.png");
-    laserImage = new QPixmap("./images/laser.jpg");
-    zShip = new QPixmap("./images/ZigZagger.png");
-    topShip = new QPixmap("./images/top.png");
-    shootShip = new QPixmap("./images/shooter1.jpg");
-    trollShip = new QPixmap("./images/troll.jpg");
+    playerShip = new QPixmap("./images/playerShip_clear.gif");
+    crusherShip = new QPixmap("./images/crusher_clear.gif");
+    laserImage = new QPixmap("./images/laser_clear.gif");
+    zShip = new QPixmap("./images/ZigZagger_clear.gif");
+    topShip = new QPixmap("./images/top_clear.gif");
+    shootShip = new QPixmap("./images/shooter1_clear.gif");
+    trollShip = new QPixmap("./images/troll_clear.gif");
 
 
     timer = new QTimer(this);
     timer->setInterval(speed);
     connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
+    
+    QLabel* currentPlayerName = new QLabel();
+    
+    QLineEdit* nameBox = new QLineEdit("Enter your name");
+    
 
 
     //start: layout stuff
@@ -363,6 +368,7 @@ JaseuWindow::JaseuWindow()  {
     QHBoxLayout* topButtons = new QHBoxLayout;
     topButtons->addWidget(pause);
     topButtons->addWidget(start);
+    topButtons->addWidget(nameBox);
 
     QHBoxLayout* middleStuff = new QHBoxLayout;
 

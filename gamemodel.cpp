@@ -8,8 +8,16 @@ Game::Game() {
     score = 0;
     scoreRate = 1.0;
     newLife = 0;
+    level = 1;
 
 }
+void Game::levelUp(){
+	if(level >= 3){
+	return;
+	}
+	level++;
+}
+
 bool Game::start(){
 return started;
 }
@@ -23,6 +31,7 @@ return started;
     score = 0;
     scoreRate = 1.0;
     newLife = 0;
+    level = 1;
     
     }
 Game::~Game() {

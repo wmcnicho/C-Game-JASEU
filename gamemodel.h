@@ -10,15 +10,20 @@ public:
     bool gameOver();
     bool start();
     void useContinue();
-
+    void levelUp();
+    
     int getScore();
     int getLives();
     int getCont();
     double getRate();
+	    
+    
     
     void reset();
 
 private:
+
+    int level;
     bool started;
     bool end;
     int continuesRemaining;
