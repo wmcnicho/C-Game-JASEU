@@ -7,6 +7,9 @@
 #include <QAbstractItemModel>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
+#include <sstream>
+#include <string>
+#include <iostream>
 #include <QTimer>
 #include <QString>
 #include <QTimeLine>
@@ -23,12 +26,15 @@
 #include <QRadioButton>
 #include <QListView>
 #include <QLCDNumber>
+#include <QKeyEvent>
 #include <string>
 #include <QGridLayout>
+#include <fstream>
+#include <QListWidget>
+
 #include "thing.h"
 #include "player.h"
 #include "crusher.h"
-#include <QKeyEvent>
 #include "gamemodel.h"
 #include "laser.h"
 #include "top.h"
@@ -59,6 +65,9 @@ public:
     
     void setToDefaultPositions();
     
+    void updateScoreboard();
+    bool readHighScores(const char* fn);
+    bool writeHighScores(const char* fn);
      
     QPixmap* laserImage;
       
@@ -69,13 +78,21 @@ protected:
 private:
     Game model;
     
+    int intTopScores[5];
+    string topScoreNames[5];
+    
+    string currentPlayer;
+    
     string name;
     bool wait;
     
     int timeCounter;
     double spawnRate;
+    double spawnRateRate;
     int speed;
     int increaseSpeed;
+    
+    QListWidget* topScores;
 
     //pixMap images
     QPixmap* playerShip; 
@@ -94,6 +111,8 @@ private:
     QTimer *timer;
 
 
+
+    QLineEdit* nameBox;
 
 
     QPushButton* pause;

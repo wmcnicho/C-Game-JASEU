@@ -4,12 +4,27 @@
 
 using namespace std;
 
-
+#define FILE_NAME "scores.txt"
 
 void JaseuWindow::handleTimer() {
+    QBrush greenBrush(Qt::green);
+    QBrush blackBrush(Qt::black);
+    QBrush whiteBrush(Qt::white);
     //cout << "timer is going" << endl;
+    if(model.getScore() > 2000){
+    	if(model.getScore() > 10000){
+    	view->setBackgroundBrush(greenBrush);
+    	spawnRateRate = .35;
+    	}
+    	else{
+    	view->setBackgroundBrush(whiteBrush);
+    	spawnRateRate = .25;
+    	}
+    }
+    
     if(model.getLives()<0)
     {
+    writeHighScores(FILE_NAME);
     timer->stop();
     return;
     }
@@ -31,7 +46,7 @@ void JaseuWindow::handleTimer() {
         Thing* newEnemy = spawnEnemy();
         scene -> addItem(newEnemy);
         enemies.push_back(newEnemy);
-        spawnRate+=.1;
+        spawnRate+= spawnRateRate;
         timeCounter = 0;
     }
     handleCollisions();
@@ -161,7 +176,7 @@ void JaseuWindow::setToDefaultPositions() {
     QBrush blueBrush(Qt::blue);
 
     //spawners
-    QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
+    /*QGraphicsRectItem* spawn1 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_1_Y, 10, 10);
     spawn1->setBrush(redBrush);
     scene->addItem(spawn1);
     QGraphicsRectItem* spawn2 = new QGraphicsRectItem(ENEMY_SPAWN_1_X, ENEMY_SPAWN_2_Y, 10, 10);
@@ -179,10 +194,10 @@ void JaseuWindow::setToDefaultPositions() {
     QGraphicsRectItem* pSpawn = new QGraphicsRectItem(PLAYER_SPAWN_X, PLAYER_SPAWN_Y, 10, 10);
     pSpawn->setBrush(greenBrush);
     scene->addItem(pSpawn);
-    
+    */
 
     //walls
-    QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
+    /*QGraphicsRectItem* leftWall = new QGraphicsRectItem(0, 0, 5, SCENE_WINDOW_Y);
     leftWall->setBrush(blueBrush);
     scene->addItem(leftWall);
     QGraphicsRectItem* rightWall = new QGraphicsRectItem(SCENE_WINDOW_X-5, 0, 5, SCENE_WINDOW_Y);
@@ -194,19 +209,58 @@ void JaseuWindow::setToDefaultPositions() {
     QGraphicsRectItem* botWall = new QGraphicsRectItem(0, SCENE_WINDOW_Y-5, SCENE_WINDOW_X, 5);
     botWall->setBrush(blueBrush);
     scene->addItem(botWall);
-    
+    */
 
     player = new Player(playerShip, PLAYER_SPAWN_X, PLAYER_SPAWN_Y);
     scene->addItem(player);
     goodies.push_back(player);
 }
 
+    
+    bool JaseuWindow::readHighScores(const char* fn){
+    ifstream input;
+    input.open(fn);
+    if(!input.good()){
+    	cout << "no valid input file" << endl;
+    	return false;
+    }
+    for(int i=0; i<5; i++){
+    getline(input, topScoreNames[i]);
+    //cout << "read name " << i << " as " << topScoreNames[i] << endl;
+    input >> intTopScores[i];
+    input.ignore(256, '\n');
+    //cout << "read score " << i << " as " << intTopScores[i] << endl;
+    }
+    return true;
+    
+    }
+    bool JaseuWindow::writeHighScores(const char* fn){
+    ofstream output;
+    output.open(fn);
+    if(!output.good()) {//checks to see if filename is valid
+        cout << "Bad file name" << endl;
+        return false;
+    }
+    for(int i=0; i<5; i++){
+    output << topScoreNames[i] << endl;
+    output << intTopScores[i] << endl;
+    }
+    return true;
+    
+    }
 
 void JaseuWindow::initialize() {
-
+    currentPlayer = nameBox->text().toStdString();
+    //cout << currentPlayer << endl;
+    if(currentPlayer == "Enter your name. (Game won't start until you do)")
+    {
+    	return;
+    }
     scene->clear();
     enemies.clear();
     goodies.clear();
+    updateScoreboard();
+    writeHighScores(FILE_NAME);
     model.reset();
     timeCounter = 0;
     spawnRate = 1;
@@ -217,6 +271,42 @@ void JaseuWindow::initialize() {
 
     model.go();
     timer->start();
+}
+void JaseuWindow::updateScoreboard(){
+	int newScore = model.getScore()/10;
+	//int newScore = 1337;
+	string newName = currentPlayer;
+	
+	for(int i=0; i<5; i++){
+	if(newScore >= intTopScores[i])
+	{
+		int temp1 = intTopScores[i];
+		string temp2 = topScoreNames[i];
+		intTopScores[i] = newScore;
+		topScoreNames[i] = newName;
+		while(i < 4){
+		intTopScores[i+1] = temp1;
+		topScoreNames[i+1] = temp2;
+		temp1 = intTopScores[i+1];
+		temp2 = topScoreNames[i+1];
+		i++;
+		}
+	  }
+	}
+    topScores->clear();
+    string beginning = "High Scores:\n\n";
+    topScores->addItem(beginning.c_str());
+    for(int i=0; i<5; i++) {
+     string str;
+     stringstream out;
+     out << topScoreNames[i] << ":	" << intTopScores[i];
+     str = out.str();
+     
+    topScores->addItem(str.c_str());
+    }
+	
+
+
 }
 void JaseuWindow::keyPressEvent( QKeyEvent *e ) {
     //cout << "Key is " << e->key() << endl;
@@ -289,12 +379,18 @@ void JaseuWindow::keyReleaseEvent( QKeyEvent *e ) {
 JaseuWindow::JaseuWindow()  {
     srand(time(0));
     
-
+    for(int i=0; i<5; i++){
+    intTopScores[i] = (5-i)*100;
+    string temp = "John Doe";
+    topScoreNames[i] = temp;
+    }
+    readHighScores(FILE_NAME);
     player = NULL;
     timer = NULL;
     speed = 10;
     increaseSpeed = 0;
-
+    spawnRateRate = .1;
+    
     playerShip = new QPixmap("./images/playerShip_clear.gif");
     crusherShip = new QPixmap("./images/crusher_clear.gif");
     laserImage = new QPixmap("./images/laser_clear.gif");
@@ -308,9 +404,9 @@ JaseuWindow::JaseuWindow()  {
     timer->setInterval(speed);
     connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
     
-    QLabel* currentPlayerName = new QLabel();
+    //QLabel* currentPlayerName = new QLabel();
     
-    QLineEdit* nameBox = new QLineEdit("Enter your name");
+    nameBox = new QLineEdit("Enter your name. (Game won't start until you do)");
     
 
 
@@ -387,7 +483,11 @@ JaseuWindow::JaseuWindow()  {
     livesLayout->addWidget(lives);
 
     sideInterface->addLayout(livesLayout);
-
+     
+    topScores = new QListWidget();
+    
+    sideInterface->addWidget(topScores); 
+     
     //QHBoxLayout* continueLayout = new QHBoxLayout;
     //continueLayout->addWidget(continuesLabel);
     //continueLayout->addWidget(continues);
@@ -411,7 +511,9 @@ JaseuWindow::JaseuWindow()  {
     connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
     connect(pause, SIGNAL(clicked()), this, SLOT(handlePause()));
 
-
+    
+    updateScoreboard();
+    
     setFocusPolicy(Qt::StrongFocus);
 }
 
