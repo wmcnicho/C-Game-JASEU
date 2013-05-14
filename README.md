@@ -27,7 +27,7 @@ doxygen config.txt
 ```
 #Command to run
 ```shell
-./puzzle_wmcnicho
+./game_wmcnicho
 ```
 
 

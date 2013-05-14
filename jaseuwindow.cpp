@@ -25,6 +25,7 @@ void JaseuWindow::handleTimer() {
     if(model.getLives()<0)
     {
     writeHighScores(FILE_NAME);
+    updateScoreboard();
     timer->stop();
     return;
     }
