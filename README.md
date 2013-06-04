@@ -1,8 +1,8 @@
-# Game - Programming Assignments Private Repository
+#Just Another Shoot Em' Up
+
 ### Student Information
   + Name: William McNichols
-  + USC Email: ttrojan@usc.edu
-  + USC ID: 0123456789
+  + USC Email: wmcnicho@usc.edu
 
 ### Game Information
   + Game Name: JASEU
